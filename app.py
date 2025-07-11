@@ -99,4 +99,5 @@ def license_details(license_key):
     return render_template("license.html", license=license)
 
 if __name__ == "__main__":
-    app.run(host=0.0.0.0, port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
