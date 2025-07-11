@@ -12,7 +12,7 @@ app.secret_key = "WolfSoftware"  # Oturumlar için şart
 ADMIN_USERNAME = "WolfSoftware"
 ADMIN_PASSWORD = "156mal651"
 
-MONGO_URI = "mongodb+srv://ktme156:156mal651@cluster0.8za5gwl.mongodb.net/?retryWrites=true&w=majority"
+MONGO_URI = "mongodb+srv://ktme156:156mal651@cluster0.8za5gwl.mongodb.net/?retryWrites=true&w=majority&tls=true&tlsAllowInvalidCertificates=true"
 client = MongoClient(MONGO_URI)
 db = client["license_db"]
 licenses = db["licenses"]
@@ -100,4 +100,3 @@ def license_details(license_key):
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
-
