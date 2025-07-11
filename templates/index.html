@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8" />
+    <title>Lisans Oluşturma</title>
+    <style>
+        /* CSS kodu burada */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background: #f0f2f5;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        form {
+            margin-bottom: 30px;
+        }
+        input, select, button {
+            padding: 8px 12px;
+            margin-right: 10px;
+            font-size: 1rem;
+        }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        li {
+            background: white;
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+        }
+        .license-info {
+            flex-grow: 1;
+        }
+        form.delete-form {
+            margin: 0;
+        }
+        button.delete-btn {
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background-color 0.3s ease;
+        }
+        button.delete-btn:hover {
+            background-color: #c0392b;
+        }
+        a {
+            text-decoration: none;
+            color: #2980b9;
+            font-weight: bold;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Lisans Oluştur</h1>
+<form method="post">
+    <label>Süre:</label>
+    <input type="number" name="duration" value="1" min="1" required />
+    <select name="duration_type">
+        <option value="minute">Dakika</option>
+        <option value="hour" selected>Saat</option>
+        <option value="day">Gün</option>
+        <option value="week">Hafta</option>
+    </select>
+
+    <label>Lisans Tipi:</label>
+    <select name="license_type" required>
+        <option value="internal" selected>Internal</option>
+        <option value="external">External</option>
+    </select>
+
+    <button type="submit">Oluştur</button>
+</form>
+    <h2>Lisanslar</h2>
+    <ul>
+        {% for lic in licenses %}
+            <li>
+                <div class="license-info">
+                    <a href="/license/{{ lic['license_key'] }}">{{ lic['license_key'] }}</a> - 
+                    {% if lic['active'] %}Aktif{% else %}Pasif{% endif %} - 
+                    Süre bitiş: {{ lic['expiry'] | int | datetimeformat }}
+                </div>
+                <form class="delete-form" method="post" action="{{ url_for('delete_license', license_key=lic['license_key']) }}">
+                    <button class="delete-btn" type="submit" onclick="return confirm('Bu lisansı silmek istediğine emin misin?')">Sil</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
